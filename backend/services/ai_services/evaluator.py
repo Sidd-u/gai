@@ -1,9 +1,10 @@
 import os
 import json
-from openai import OpenAI
+import google.generativeai as genai
 
 def get_client():
-    return OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+    genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+    return genai.GenerativeModel("gemini-1.5-flash")
 
 def evaluate_answers(questions, answers):
     qa_pairs = []
@@ -18,7 +19,8 @@ def evaluate_answers(questions, answers):
         })
 
     prompt = f"""
-    Evaluate the following interview answers and return ONLY a JSON object:
+    Evaluate the following interview answers.
+    Return ONLY a valid JSON object. No markdown, no code blocks.
     {{
         "score": 75,
         "strengths": ["strength1", "strength2"],
@@ -29,22 +31,20 @@ def evaluate_answers(questions, answers):
         ]
     }}
 
-    Score must be 0-100. Be honest and specific.
+    Score must be 0-100.
 
     Q&A pairs:
     {json.dumps(qa_pairs, indent=2)}
     """
 
-    client = get_client()
-    response = client.chat.completions.create(
-        model="gpt-4o-mini",
-        response_format={"type": "json_object"},
-        messages=[
-            {"role": "system", "content": "You are an expert interview evaluator. Output strictly valid JSON only."},
-            {"role": "user", "content": prompt}
-        ]
-    )
-
-    result = json.loads(response.choices[0].message.content)
+    model = get_client()
+    response = model.generate_content(prompt)
+    raw = response.text.strip()
+    if raw.startswith("```"):
+        raw = raw.split("```")[1]
+        if raw.startswith("json"):
+            raw = raw[4:]
+    raw = raw.strip()
+    result = json.loads(raw)
     print(f"[INFO] Evaluation complete. Score: {result.get('score')}")
     return result

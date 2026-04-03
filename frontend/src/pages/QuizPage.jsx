@@ -59,7 +59,7 @@ export default function QuizPage() {
   };
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="min-h-screen bg-background p-6 flex flex-col items-center">
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="min-h-screen bg-background p-6 pt-16 flex flex-col items-center">
       <div className="w-full max-w-4xl pt-8">
         <div className="w-full bg-surface rounded-full h-3 mb-8 overflow-hidden">
           <motion.div 

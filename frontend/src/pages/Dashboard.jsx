@@ -66,12 +66,12 @@ export default function Dashboard() {
   };
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="min-h-screen p-8 flex flex-col items-center bg-background">
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="min-h-screen p-8 pt-16 flex flex-col items-center bg-gradient-to-br from-background via-surface to-background">
       <motion.h1 
         initial={{ y: -30, opacity: 0 }} 
         animate={{ y: 0, opacity: 1 }} 
         transition={{ duration: 1.2, ease: "easeOut" }}
-        className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary mb-16 mt-12"
+        className="text-5xl font-black text-center px-4 text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary mb-16 mt-12"
       >
         Prepare for Greatness
       </motion.h1>
@@ -82,13 +82,13 @@ export default function Dashboard() {
       >
         {step === 1 ? (
           <motion.div initial={{ opacity:0, scale: 0.95 }} animate={{ opacity:1, scale: 1 }} transition={{duration: 0.5}}>
-            <h2 className="text-3xl font-bold mb-8 flex items-center gap-3 text-textMain">
+            <h2 className="text-3xl font-bold mb-8 flex items-center gap-4 text-textMain">
               <span className="p-3 bg-primary/10 rounded-xl text-primary"><UploadCloud /></span> 
               Step 1: Upload Resume
             </h2>
             <motion.div 
               whileHover={{ scale: 1.02 }}
-              className="border-2 border-dashed border-primary/40 rounded-2xl p-12 text-center hover:bg-primary/5 transition-colors cursor-pointer relative group"
+              className="border-2 border-dashed border-primary/60 rounded-2xl p-12 text-center hover:bg-primary/5 transition-colors cursor-pointer relative group"
             >
               <input 
                 type="file" 

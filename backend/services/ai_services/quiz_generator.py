@@ -1,9 +1,10 @@
 import os
 import json
-from openai import OpenAI
+import google.generativeai as genai
 
 def get_client():
-    return OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+    genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+    return genai.GenerativeModel("gemini-1.5-flash")
 
 def generate_quiz(company, role, resume_text=""):
     prompt = f"""
@@ -12,7 +13,7 @@ def generate_quiz(company, role, resume_text=""):
     Role: {role}
     Candidate background: {resume_text[:1000] if resume_text else "Not provided"}
 
-    Return ONLY a JSON object with no extra text:
+    Return ONLY a valid JSON object. No markdown, no code blocks.
     {{
         "questions": [
             {{
@@ -43,16 +44,14 @@ def generate_quiz(company, role, resume_text=""):
     Make questions specific to {company} and {role}.
     """
 
-    client = get_client()
-    response = client.chat.completions.create(
-        model="gpt-4o-mini",
-        response_format={"type": "json_object"},
-        messages=[
-            {"role": "system", "content": "You are a senior technical interviewer. Output strictly valid JSON only."},
-            {"role": "user", "content": prompt}
-        ]
-    )
-
-    result = json.loads(response.choices[0].message.content)
+    model = get_client()
+    response = model.generate_content(prompt)
+    raw = response.text.strip()
+    if raw.startswith("```"):
+        raw = raw.split("```")[1]
+        if raw.startswith("json"):
+            raw = raw[4:]
+    raw = raw.strip()
+    result = json.loads(raw)
     print(f"[INFO] Quiz generated: {len(result.get('questions', []))} questions")
     return result

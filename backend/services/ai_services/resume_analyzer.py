@@ -2,10 +2,11 @@ import os
 import json
 import PyPDF2
 import docx
-from openai import OpenAI
+import google.generativeai as genai
 
 def get_client():
-    return OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+    genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+    return genai.GenerativeModel("gemini-1.5-flash")
 
 def extract_text(file_path):
     ext = file_path.lower().split('.')[-1]
@@ -36,7 +37,8 @@ def analyze_resume_file(file_path):
         raise ValueError("Could not extract text from resume file")
 
     prompt = f"""
-    Analyze the following resume and return ONLY a JSON object with no extra text.
+    Analyze the following resume and return ONLY a valid JSON object.
+    No extra text, no markdown, no code blocks. Just raw JSON.
     JSON structure must be exactly:
     {{
         "skills": ["skill1", "skill2"],
@@ -51,16 +53,14 @@ def analyze_resume_file(file_path):
     {text[:4000]}
     """
 
-    client = get_client()
-    response = client.chat.completions.create(
-        model="gpt-4o-mini",
-        response_format={"type": "json_object"},
-        messages=[
-            {"role": "system", "content": "You are a professional technical recruiter. Output strictly valid JSON only."},
-            {"role": "user", "content": prompt}
-        ]
-    )
-
-    analysis_dict = json.loads(response.choices[0].message.content)
-    print(f"[INFO] Resume analyzed successfully: {list(analysis_dict.keys())}")
+    model = get_client()
+    response = model.generate_content(prompt)
+    raw = response.text.strip()
+    if raw.startswith("```"):
+        raw = raw.split("```")[1]
+        if raw.startswith("json"):
+            raw = raw[4:]
+    raw = raw.strip()
+    analysis_dict = json.loads(raw)
+    print(f"[INFO] Resume analyzed: {list(analysis_dict.keys())}")
     return text, json.dumps(analysis_dict)
