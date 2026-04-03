@@ -1,47 +1,50 @@
+import os
 import json
 from openai import OpenAI
 
-client = OpenAI()
+def get_client():
+    return OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-def evaluate_answers(questions, user_answers_dict):
-    """
-    questions: The original list of question dicts
-    user_answers_dict: dict of {question_id: user_answer_string}
-    """
-    
+def evaluate_answers(questions, answers):
+    qa_pairs = []
+    for q in questions:
+        q_id = q.get("id")
+        user_answer = answers.get(q_id, "No answer provided")
+        qa_pairs.append({
+            "question": q.get("question"),
+            "type": q.get("type"),
+            "correct_answer": q.get("correct_answer"),
+            "user_answer": user_answer
+        })
+
     prompt = f"""
-    Evaluate the following user answers to an interview quiz.
-    
-    Quiz Questions:
-    {json.dumps(questions, indent=2)}
-    
-    User Answers:
-    {json.dumps(user_answers_dict, indent=2)}
-    
-    For MCQ questions, check against the correct answer. For coding and essay questions, evaluate based on correctness, quality, and typical interview standards.
-    
-    Return STRICTLY JSON format with this structure:
+    Evaluate the following interview answers and return ONLY a JSON object:
     {{
-        "score": 85, 
-        "strengths": ["List of 2-3 strengths found in answers"],
-        "weaknesses": ["List of 2-3 areas to improve"],
-        "question_feedback": [
-            {{
-                "id": "q1",
-                "is_correct": true,
-                "feedback": "Correct. Detailed feedback for coding/essay."
-            }}
+        "score": 75,
+        "strengths": ["strength1", "strength2"],
+        "weaknesses": ["weakness1", "weakness2"],
+        "feedback": "Overall feedback here",
+        "question_scores": [
+            {{"question": "Q text", "score": 8, "feedback": "Good because..."}}
         ]
     }}
+
+    Score must be 0-100. Be honest and specific.
+
+    Q&A pairs:
+    {json.dumps(qa_pairs, indent=2)}
     """
-    
+
+    client = get_client()
     response = client.chat.completions.create(
-        model="gpt-4o",
-        response_format={ "type": "json_object" },
+        model="gpt-4o-mini",
+        response_format={"type": "json_object"},
         messages=[
-            {"role": "system", "content": "You are a highly analytical technical interview evaluator and output strictly JSON."},
+            {"role": "system", "content": "You are an expert interview evaluator. Output strictly valid JSON only."},
             {"role": "user", "content": prompt}
         ]
     )
-    
-    return json.loads(response.choices[0].message.content)
+
+    result = json.loads(response.choices[0].message.content)
+    print(f"[INFO] Evaluation complete. Score: {result.get('score')}")
+    return result

@@ -25,7 +25,8 @@ export default function Dashboard() {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       if (res.data.success) {
-        localStorage.setItem('resume_text', res.data.data?.analysis || '{}');
+        localStorage.setItem('resume_id', res.data.data?.resume_id);
+        localStorage.setItem('resume_text', JSON.stringify(res.data.data?.parsed || {}));
         setStep(2);
       } else {
         alert('Error uploading resume: ' + (res.data.error || 'Unknown error'));
