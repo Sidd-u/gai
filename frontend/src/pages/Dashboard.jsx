@@ -43,7 +43,14 @@ export default function Dashboard() {
     if (!company || !role) return;
     setLoading(true);
     try {
-      const resume_text = localStorage.getItem('resume_text') || '';
+      const stored = localStorage.getItem('resume_text') || '{}';
+      let resume_text = '';
+      try {
+        const parsed = JSON.parse(stored);
+        resume_text = parsed.summary || JSON.stringify(parsed);
+      } catch {
+        resume_text = stored;
+      }
       const res = await api.post('/quiz/generate', { company, role, resume_text });
       if (res.data.success) {
         navigate('/quiz', { state: { quiz_id: res.data.data?.quiz_id, quiz: res.data.data?.quiz } });

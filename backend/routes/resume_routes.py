@@ -4,16 +4,12 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from database.models import db, Resume
 from services.ai_services.resume_analyzer import analyze_resume_file
 from werkzeug.utils import secure_filename
-from openai import OpenAI
 
 ALLOWED_EXTENSIONS = {'pdf', 'doc', 'docx'}
 
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-def get_client():
-    return OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 resume_bp = Blueprint('resume', __name__)
 
