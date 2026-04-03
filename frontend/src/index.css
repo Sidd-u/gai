@@ -1,59 +1,57 @@
 @import "tailwindcss";
 
-@layer base {
-  :root {
-    --color-primary: #3b82f6;
-    --color-secondary: #0ea5e9;
-    --color-background: #ffffff;
-    --color-surface: #f3f4f6;
-    --color-text-main: #1f2937;
-    --color-text-muted: #6b7280;
-  }
+@theme {
+  --color-primary: #3b82f6;
+  --color-secondary: #0ea5e9;
+  --color-background: #ffffff;
+  --color-surface: #f3f4f6;
+  --color-text-main: #1f2937;
+  --color-text-muted: #6b7280;
+}
 
-  [data-theme='dark'] {
-    --color-primary: #8b5cf6;
-    --color-secondary: #a855f7;
-    --color-background: #111827;
-    --color-surface: #1f2937;
-    --color-text-main: #f9fafb;
-    --color-text-muted: #9ca3af;
-  }
+[data-theme='dark'] {
+  --color-primary: #8b5cf6;
+  --color-secondary: #a855f7;
+  --color-background: #111827;
+  --color-surface: #1f2937;
+  --color-text-main: #f9fafb;
+  --color-text-muted: #9ca3af;
+}
 
-  [data-theme='blue'] {
-    --color-primary: #2563eb; 
-    --color-secondary: #60a5fa; 
-    --color-background: #eff6ff; 
-    --color-surface: #ffffff; 
-    --color-text-main: #1e3a8a; 
-    --color-text-muted: #60a5fa; 
-  }
+[data-theme='blue'] {
+  --color-primary: #2563eb;
+  --color-secondary: #60a5fa;
+  --color-background: #eff6ff;
+  --color-surface: #dbeafe;
+  --color-text-main: #1e3a8a;
+  --color-text-muted: #3b82f6;
+}
 
-  [data-theme='purple'] {
-    --color-primary: #9333ea; 
-    --color-secondary: #c084fc; 
-    --color-background: #faf5ff; 
-    --color-surface: #ffffff; 
-    --color-text-main: #581c87; 
-    --color-text-muted: #a855f7; 
-  }
+[data-theme='purple'] {
+  --color-primary: #9333ea;
+  --color-secondary: #c084fc;
+  --color-background: #faf5ff;
+  --color-surface: #f3e8ff;
+  --color-text-main: #581c87;
+  --color-text-muted: #a855f7;
+}
 
-  [data-theme='green'] {
-    --color-primary: #16a34a; 
-    --color-secondary: #4ade80; 
-    --color-background: #f0fdf4; 
-    --color-surface: #ffffff; 
-    --color-text-main: #14532d; 
-    --color-text-muted: #4ade80; 
-  }
+[data-theme='green'] {
+  --color-primary: #16a34a;
+  --color-secondary: #4ade80;
+  --color-background: #f0fdf4;
+  --color-surface: #dcfce7;
+  --color-text-main: #14532d;
+  --color-text-muted: #22c55e;
+}
 
-  [data-theme='orange'] {
-    --color-primary: #ea580c; 
-    --color-secondary: #fb923c; 
-    --color-background: #fff7ed; 
-    --color-surface: #ffffff; 
-    --color-text-main: #7c2d12; 
-    --color-text-muted: #fb923c; 
-  }
+[data-theme='orange'] {
+  --color-primary: #ea580c;
+  --color-secondary: #fb923c;
+  --color-background: #fff7ed;
+  --color-surface: #ffedd5;
+  --color-text-main: #7c2d12;
+  --color-text-muted: #f97316;
 }
 
 body {
