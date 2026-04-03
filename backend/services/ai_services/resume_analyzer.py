@@ -2,11 +2,10 @@ import os
 import json
 import PyPDF2
 import docx
-import google.generativeai as genai
+import ollama
 
 def get_client():
-    genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-    return genai.GenerativeModel("gemini-1.5-flash")
+    return None  # ollama is called directly, no client needed
 
 def extract_text(file_path):
     ext = file_path.lower().split('.')[-1]
@@ -53,13 +52,20 @@ def analyze_resume_file(file_path):
     {text[:4000]}
     """
 
-    model = get_client()
-    response = model.generate_content(prompt)
-    raw = response.text.strip()
-    if raw.startswith("```"):
-        raw = raw.split("```")[1]
-        if raw.startswith("json"):
-            raw = raw[4:]
+    response = ollama.chat(
+        model="llama3.2",
+        messages=[{"role": "user", "content": prompt}]
+    )
+    raw = response['message']['content'].strip()
+    if "```" in raw:
+        parts = raw.split("```")
+        for part in parts:
+            part = part.strip()
+            if part.startswith("json"):
+                part = part[4:].strip()
+            if part.startswith("{") or part.startswith("["):
+                raw = part
+                break
     raw = raw.strip()
     analysis_dict = json.loads(raw)
     print(f"[INFO] Resume analyzed: {list(analysis_dict.keys())}")

@@ -1,10 +1,9 @@
 import os
 import json
-import google.generativeai as genai
+import ollama
 
 def get_client():
-    genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-    return genai.GenerativeModel("gemini-1.5-flash")
+    return None  # ollama is called directly, no client needed
 
 def generate_roadmap(feedback):
     score = feedback.get("score", 0)
@@ -35,13 +34,20 @@ def generate_roadmap(feedback):
     Generate 4-6 topics ordered by priority.
     """
 
-    model = get_client()
-    response = model.generate_content(prompt)
-    raw = response.text.strip()
-    if raw.startswith("```"):
-        raw = raw.split("```")[1]
-        if raw.startswith("json"):
-            raw = raw[4:]
+    response = ollama.chat(
+        model="llama3.2",
+        messages=[{"role": "user", "content": prompt}]
+    )
+    raw = response['message']['content'].strip()
+    if "```" in raw:
+        parts = raw.split("```")
+        for part in parts:
+            part = part.strip()
+            if part.startswith("json"):
+                part = part[4:].strip()
+            if part.startswith("{") or part.startswith("["):
+                raw = part
+                break
     raw = raw.strip()
     result = json.loads(raw)
     print(f"[INFO] Roadmap generated: {len(result.get('topics', []))} topics")

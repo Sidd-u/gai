@@ -40,7 +40,11 @@ def create_quiz():
 def submit_quiz():
     data = request.get_json()
     quiz_id = data.get('quiz_id')
-    answers = data.get('answers') # List/dict of answers mapped to questions
+    answers = data.get('answers')
+    if isinstance(answers, list):
+        answers = {str(i): a for i, a in enumerate(answers)}
+    if not isinstance(answers, dict):
+        answers = {} # List/dict of answers mapped to questions
     
     if not quiz_id or answers is None:
         return jsonify({"success": False, "error": "quiz_id and answers required"}), 400

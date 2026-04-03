@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd \"E:\\\\code\\\\programs\\\\projects\\\\gen-ai\\\\app 1\\\\backend\" && pip install -r requirements.txt)",
+      "Bash(cd \"E:\\\\code\\\\programs\\\\projects\\\\gen-ai\\\\app 1\\\\backend\" && python app.py)",
+      "Bash(cd \"E:\\\\code\\\\programs\\\\projects\\\\gen-ai\\\\app 1\\\\frontend\" && npm install)",
+      "Bash(cd \"E:\\\\code\\\\programs\\\\projects\\\\gen-ai\\\\app 1\\\\frontend\" && npm run dev)",
+      "Bash(curl -s http://127.0.0.1:5000/health 2>/dev/null || curl -s http://127.0.0.1:5000/api/health 2>/dev/null || echo \"Checking routes...\")",
+      "Bash(curl -s http://127.0.0.1:5000/)",
+      "Bash(curl -s -X POST http://127.0.0.1:5000/auth/signup -H \"Content-Type: application/json\" -d '{\"email\":\"test@example.com\",\"password\":\"test123\"}')",
+      "Bash(curl -s http://localhost:11434/api/tags 2>/dev/null || echo \"Ollama not responding\")",
+      "Bash(curl -s -X POST http://127.0.0.1:5000/auth/login -H \"Content-Type: application/json\" -d '{\"email\":\"test@example.com\",\"password\":\"test123\"}')",
+      "Bash(cd /tmp && curl -s -X POST http://127.0.0.1:5000/resume/upload -H \"Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3NTI1NTE1NCwianRpIjoiMzZiYzM2YTktMTU2Ny00MTFlLWE4NjUtOWViOTVkM2UxNGE2IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjMiLCJuYmYiOjE3NzUyNTUxNTQsImV4cCI6MTc3NTI1NjA1NH0.I6KWhUC-iSEAkQs8LXbRlAOdwOcXlkFxyG6-hGHAmdQ\" -F \"file=@test_resume.txt\")",
+      "Bash(curl -s -X POST http://localhost:11434/api/chat -H \"Content-Type: application/json\" -d '{\"model\":\"llama3.2\",\"messages\":[{\"role\":\"user\",\"content\":\"Return only valid JSON: {\\\\\"test\\\\\": true, \\\\\"message\\\\\": \\\\\"Ollama is working\\\\\"}\"}]}' | head -c 300)",
+      "Bash(curl -s http://localhost:5173 | head -c 500)"
+    ]
+  }
+}
