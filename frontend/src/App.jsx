@@ -11,7 +11,7 @@ function App() {
 
   useEffect(() => {
     // Empty string maps to custom default colorful theme which is root
-    document.documentElement.setAttribute('data-theme', theme === 'colorful' ? '' : theme);
+    document.documentElement.setAttribute('data-theme', theme === 'colorful' ? 'colorful' : theme);
     localStorage.setItem('theme', theme);
   }, [theme]);
 
