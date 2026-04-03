@@ -52,7 +52,8 @@ def submit_quiz():
         if not quiz:
             return jsonify({"success": False, "error": "Quiz not found"}), 404
             
-        questions = json.loads(quiz.questions_json)
+        quiz_data = json.loads(quiz.questions_json)
+        questions = quiz_data.get('questions', quiz_data) if isinstance(quiz_data, dict) else quiz_data
         evaluation = evaluate_answers(questions, answers)
         
         new_result = Result(

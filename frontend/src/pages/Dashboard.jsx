@@ -43,13 +43,14 @@ export default function Dashboard() {
     if (!company || !role) return;
     setLoading(true);
     try {
-      const stored = localStorage.getItem('resume_text') || '{}';
       let resume_text = '';
       try {
+        const stored = localStorage.getItem('resume_text') || '{}';
         const parsed = JSON.parse(stored);
-        resume_text = parsed.summary || JSON.stringify(parsed);
+        resume_text = parsed.summary || 
+          (parsed.skills ? `Skills: ${parsed.skills.join(', ')}. ${parsed.summary || ''}` : stored);
       } catch {
-        resume_text = stored;
+        resume_text = localStorage.getItem('resume_text') || '';
       }
       const res = await api.post('/quiz/generate', { company, role, resume_text });
       if (res.data.success) {
@@ -87,7 +88,7 @@ export default function Dashboard() {
             </h2>
             <motion.div 
               whileHover={{ scale: 1.02 }}
-              className="border-3 border-dashed border-primary/40 rounded-2xl p-12 text-center hover:bg-primary/5 transition-colors cursor-pointer relative group"
+              className="border-2 border-dashed border-primary/40 rounded-2xl p-12 text-center hover:bg-primary/5 transition-colors cursor-pointer relative group"
             >
               <input 
                 type="file" 

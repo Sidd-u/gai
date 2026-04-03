@@ -9,6 +9,14 @@
   --color-textMuted: #6b7280;
 }
 
+:root {
+  --color-primary: #3b82f6;
+  --color-secondary: #0ea5e9;
+  --color-background: #ffffff;
+  --color-surface: #f3f4f6;
+  --color-textMain: #1f2937;
+  --color-textMuted: #6b7280;
+}
 [data-theme='colorful'] {
   --color-primary: #f59e0b;
   --color-secondary: #ec4899;
