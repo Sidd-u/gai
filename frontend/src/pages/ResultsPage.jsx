@@ -82,7 +82,7 @@ export default function ResultsPage() {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="min-h-screen bg-background p-4 pt-20 pb-12 relative overflow-hidden"
+      className="min-h-screen bg-background p-4 pt-20 pb-12 relative overflow-x-hidden"
     >
       {/* Background decoration */}
       <div className="absolute top-20 left-10 w-72 h-72 bg-primary/15 rounded-full filter blur-3xl" />

@@ -96,7 +96,7 @@ export default function QuizPage() {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="min-h-screen bg-background p-4 pt-20 flex flex-col items-center relative overflow-hidden"
+      className="min-h-screen bg-background p-4 pt-20 flex flex-col items-center relative overflow-x-hidden"
     >
       {/* Background decoration */}
       <div className="absolute top-20 left-10 w-64 h-64 bg-primary/15 rounded-full filter blur-3xl" />

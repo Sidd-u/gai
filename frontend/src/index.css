@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+html {
+  font-size: 85%;
+}
+
 @theme {
   --color-primary: #6366f1;
   --color-secondary: #8b5cf6;

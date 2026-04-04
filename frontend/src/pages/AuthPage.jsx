@@ -33,7 +33,7 @@ export default function AuthPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden bg-background">
+    <div className="min-h-screen flex items-center justify-center p-4 relative overflow-x-hidden bg-background">
       {/* Animated background orbs */}
       <div className="absolute top-[-10%] left-[-10%] w-[35rem] h-[35rem] bg-primary/30 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[35rem] h-[35rem] bg-secondary/30 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse" style={{ animationDelay: '1.5s' }} />

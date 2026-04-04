@@ -93,7 +93,7 @@ export default function Dashboard() {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="min-h-screen p-6 pt-20 flex flex-col items-center relative overflow-hidden"
+      className="min-h-screen p-6 pt-20 flex flex-col items-center relative overflow-x-hidden"
     >
       {/* Animated background elements */}
       <div className="absolute top-20 left-10 w-72 h-72 bg-primary/20 rounded-full filter blur-3xl animate-pulse" />
